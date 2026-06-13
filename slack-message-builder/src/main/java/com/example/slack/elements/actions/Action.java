@@ -21,5 +21,10 @@ public class Action implements SlackElement {
     public List<SlackElement> getElements(){
         return this.elements;
     }
+
+    @Override
+    public SlackElement build() {
+        return this;
+    }
     
 }

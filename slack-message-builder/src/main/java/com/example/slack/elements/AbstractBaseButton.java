@@ -70,5 +70,5 @@ public abstract class AbstractBaseButton implements SlackElement, BlockBuilder {
         return label;
     }
 
-    public abstract Object build();
+    public abstract SlackElement build();
 }

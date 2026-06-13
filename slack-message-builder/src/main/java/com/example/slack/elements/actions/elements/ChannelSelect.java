@@ -51,10 +51,10 @@ public class ChannelSelect implements SlackElement, BlockBuilder {
         return initialChannel;
     }
 
-     @Override
+    @Override
     public SlackElement build() {
         List<SlackElement> blockElements = new ArrayList<>();
         blockElements.add(this);
-        return  new Action().elements(blockElements);
+        return new Action().elements(blockElements);
     }
 }

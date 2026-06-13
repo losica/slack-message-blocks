@@ -12,5 +12,4 @@ public class Button extends AbstractBaseButton {
             .accessory(this)
             .text(new PlainText(getLabel()));
     }
-
 }
