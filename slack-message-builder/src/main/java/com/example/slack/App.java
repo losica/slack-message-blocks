@@ -34,8 +34,8 @@ public class App
         message.header("Section 2",2);
 
         List<SlackElement> sectionElements = new ArrayList<SlackElement>();
-        sectionElements.add(new PlainText("A brief history of the world..."));
-        sectionElements.add(new PlainText("Starts with Big bang"));
+        sectionElements.add(PlainText.Builder.newInstance().text("A brief history of the world...").build());
+        sectionElements.add(PlainText.Builder.newInstance().text("Starts with Big bang").build());
         message.section(sectionElements);
 
         HttpResponse<String> success = message.send();
