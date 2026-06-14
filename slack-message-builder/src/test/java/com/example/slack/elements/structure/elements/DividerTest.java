@@ -11,7 +11,7 @@ public class DividerTest extends TestCase {
     private final ObjectMapper objectMapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
     public void testBuildShouldSerializeToSlackDividerJson() throws Exception {
-        Divider divider = new Divider();
+        Divider divider = Divider.Builder.newInstance().build();
 
         String json = objectMapper.writeValueAsString(divider.build());
 

@@ -4,33 +4,21 @@ import com.example.slack.elements.section.Section;
 import com.example.slack.interfaces.BlockBuilder;
 import com.example.slack.interfaces.SlackElement;
 
-public class PlainText implements SlackElement, BlockBuilder {
-    private final String type = "plain_text";
-    private String text;
-    private boolean emoji;
+public final class PlainText implements SlackElement, BlockBuilder {
 
-    public PlainText(String text) {
-        this(text, true);
-    }
+    private static final String TYPE = "plain_text";
 
-    public PlainText(String text, boolean emoji) {
-        this.text = text;
-        this.emoji = emoji;
-    }
+    private final String text;
+    private final boolean emoji;
 
-    public PlainText text(String text) {
-        this.text = text;
-        return this;
-    }
-
-    public PlainText emoji(boolean emoji) {
-        this.emoji = emoji;
-        return this;
+    private PlainText(Builder builder) {
+        this.text = builder.text;
+        this.emoji = builder.emoji;
     }
 
     @Override
     public String getType() {
-        return type;
+        return TYPE;
     }
 
     public String getText() {
@@ -43,7 +31,33 @@ public class PlainText implements SlackElement, BlockBuilder {
 
     @Override
     public SlackElement build() {
-        return new Section()
-            .section(this.text);
+        return Section.Builder.newInstance()
+                .section(text)
+                .build();
+    }
+
+    public static class Builder {
+
+        private String text;
+        private boolean emoji = true;
+
+        public static Builder newInstance()
+        {
+            return new Builder();
+        }
+
+        public Builder text(String text) {
+            this.text = text;
+            return this;
+        }
+
+        public Builder emoji(boolean emoji) {
+            this.emoji = emoji;
+            return this;
+        }
+
+        public PlainText build() {
+            return new PlainText(this);
+        }
     }
 }

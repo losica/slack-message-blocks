@@ -8,46 +8,30 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public abstract class AbstractBaseButton implements SlackElement, BlockBuilder {
-    private final String type = "button";
 
-    private PlainText text;
-    private String value;
-    private String style;
-    
+    private static final String TYPE = "button";
+
+    private final PlainText text;
+    private final String value;
+    private final String style;
+
     @JsonIgnore
-    private String label;
+    private final String label;
 
     @JsonProperty("action_id")
-    private String actionId;
+    private final String actionId;
 
-    public AbstractBaseButton text(String text) {
-        this.text = new PlainText(text);
-        return this;
-    }
-
-    public AbstractBaseButton value(String value) {
-        this.value = value;
-        return this;
-    }
-
-    public AbstractBaseButton style(ButtonStyle style) {
-        this.style = style.getValue();
-        return this;
-    }
-
-    public AbstractBaseButton actionId(String actionId) {
-        this.actionId = actionId;
-        return this;
-    }
-
-    public AbstractBaseButton label(String label) {
-        this.label = label;
-        return this;
+    protected AbstractBaseButton(Builder<?> builder) {
+        this.text = builder.text;
+        this.value = builder.value;
+        this.style = builder.style;
+        this.actionId = builder.actionId;
+        this.label = builder.label;
     }
 
     @Override
     public String getType() {
-        return type;
+        return TYPE;
     }
 
     public PlainText getText() {
@@ -71,4 +55,40 @@ public abstract class AbstractBaseButton implements SlackElement, BlockBuilder {
     }
 
     public abstract SlackElement build();
+
+    public abstract static class Builder<T extends Builder<T>> {
+
+        private PlainText text;
+        private String value;
+        private String style;
+        private String actionId;
+        private String label;
+
+        protected abstract T self();
+
+        public T text(String text) {
+            this.text = PlainText.Builder.newInstance().text(text).build();
+            return self();
+        }
+
+        public T value(String value) {
+            this.value = value;
+            return self();
+        }
+
+        public T style(ButtonStyle style) {
+            this.style = style.getValue();
+            return self();
+        }
+
+        public T actionId(String actionId) {
+            this.actionId = actionId;
+            return self();
+        }
+
+        public T label(String label) {
+            this.label = label;
+            return self();
+        }
+    }
 }

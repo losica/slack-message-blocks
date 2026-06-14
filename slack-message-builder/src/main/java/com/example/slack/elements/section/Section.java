@@ -6,39 +6,22 @@ import com.example.slack.elements.section.elements.PlainText;
 import com.example.slack.interfaces.BlockBuilder;
 import com.example.slack.interfaces.SlackElement;
 
-public class Section implements SlackElement, BlockBuilder {
-    private final String type = "section";
+public final class Section implements SlackElement, BlockBuilder {
 
-    private Object text;
-    private Object accessory;
-    private List<SlackElement> fields;
+    private static final String TYPE = "section";
 
-    public Section section(String text)
-    {
-        this.text = new PlainText(text);
-        return this;
+    private final Object text;
+    private final Object accessory;
+    private final List<SlackElement> fields;
+
+    private Section(Builder builder) {
+        this.text = builder.text;
+        this.accessory = builder.accessory;
+        this.fields = builder.fields == null ? null : List.copyOf(builder.fields);
     }
 
-    public Section fields(List<SlackElement> fields)
-    {
-        this.fields = fields;
-        return this;
-    }
-
-    public Section accessory(Object element)
-    {
-        this.accessory = element;
-        return this;
-    }
-
-    public Section text(Object text) {
-        this.text = text;
-        return this;
-    }
-
-    @Override
     public String getType() {
-        return type;
+        return TYPE;
     }
 
     public Object getText() {
@@ -50,11 +33,49 @@ public class Section implements SlackElement, BlockBuilder {
     }
 
     public List<SlackElement> getFields() {
-        return this.fields;
+        return fields;
     }
 
     @Override
     public SlackElement build() {
         return this;
+    }
+
+    public static class Builder {
+
+        private Object text;
+        private Object accessory;
+        private List<SlackElement> fields;
+
+        public static Builder newInstance()
+        {
+            return new Builder();
+        }
+
+        public Builder section(String text) {
+            this.text = PlainText.Builder.newInstance()
+                    .text(text)
+                    .build();
+            return this;
+        }
+
+        public Builder text(Object text) {
+            this.text = text;
+            return this;
+        }
+
+        public Builder accessory(Object accessory) {
+            this.accessory = accessory;
+            return this;
+        }
+
+        public Builder fields(List<SlackElement> fields) {
+            this.fields = fields;
+            return this;
+        }
+
+        public Section build() {
+            return new Section(this);
+        }
     }
 }

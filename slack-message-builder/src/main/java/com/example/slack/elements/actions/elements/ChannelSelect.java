@@ -9,34 +9,26 @@ import com.example.slack.interfaces.BlockBuilder;
 import com.example.slack.interfaces.SlackElement;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ChannelSelect implements SlackElement, BlockBuilder {
-    private final String type = "channels_select";
+public final class ChannelSelect implements SlackElement, BlockBuilder {
 
-    private PlainText placeholder;
+    private static final String TYPE = "channels_select";
+
+    private final PlainText placeholder;
 
     @JsonProperty("action_id")
-    private String actionId;
+    private final String actionId;
 
     @JsonProperty("initial_channel")
-    private String initialChannel;
+    private final String initialChannel;
 
-    public ChannelSelect placeholder(String text) {
-        this.placeholder = new PlainText(text);
-        return this;
-    }
-
-    public ChannelSelect actionId(String actionId) {
-        this.actionId = actionId;
-        return this;
-    }
-
-    public ChannelSelect initialChannel(String initialChannel) {
-        this.initialChannel = initialChannel;
-        return this;
+    private ChannelSelect(Builder builder) {
+        this.placeholder = builder.placeholder;
+        this.actionId = builder.actionId;
+        this.initialChannel = builder.initialChannel;
     }
 
     public String getType() {
-        return type;
+        return TYPE;
     }
 
     public PlainText getPlaceholder() {
@@ -55,6 +47,38 @@ public class ChannelSelect implements SlackElement, BlockBuilder {
     public SlackElement build() {
         List<SlackElement> blockElements = new ArrayList<>();
         blockElements.add(this);
-        return new Action().elements(blockElements);
+        return Action.Builder.newInstance().elements(blockElements).build();
+    }
+
+    public static class Builder {
+
+        private PlainText placeholder;
+        private String actionId;
+        private String initialChannel;
+
+        public Builder placeholder(String text) {
+            this.placeholder = PlainText.Builder.newInstance().text(text).build();
+            return this;
+        }
+
+        public static Builder newInstance()
+        {
+            return new Builder();
+        }
+
+
+        public Builder actionId(String actionId) {
+            this.actionId = actionId;
+            return this;
+        }
+
+        public Builder initialChannel(String initialChannel) {
+            this.initialChannel = initialChannel;
+            return this;
+        }
+
+        public ChannelSelect build() {
+            return new ChannelSelect(this);
+        }
     }
 }

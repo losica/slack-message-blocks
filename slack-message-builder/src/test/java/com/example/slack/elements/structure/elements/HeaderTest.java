@@ -12,9 +12,11 @@ public class HeaderTest extends TestCase {
 
     public void testBuildShouldSerializeHeaderCorrectly() throws Exception {
 
-        Header header = new Header()
+        Header header = new Header
+                .Builder()
                 .text("Welcome")
-                .level(1);
+                .level(1)
+                .build();
 
         String json = objectMapper.writeValueAsString(header.build());
         JsonNode actual = objectMapper.readTree(json);
@@ -37,9 +39,11 @@ public class HeaderTest extends TestCase {
     }
 
     public void testBuilderMethodsShouldSetProperties() {
-        Header header = new Header()
+        Header header = new Header
+                .Builder()
                 .text("Hello")
-                .level(2);
+                .level(2)
+                .build();
 
         assertEquals("header", header.getType());
         assertEquals(2, header.getLevel());
@@ -47,7 +51,7 @@ public class HeaderTest extends TestCase {
     }
 
     public void testBuildShouldReturnSameInstance() {
-        Header header = new Header();
+        Header header = Header.Builder.newInstance().build();
 
         assertSame(header, header.build());
     }

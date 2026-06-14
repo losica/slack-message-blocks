@@ -1,5 +1,6 @@
 package com.example.slack.elements.actions;
 
+import com.example.slack.elements.actions.elements.Button;
 import com.example.slack.elements.section.elements.PlainText;
 import com.example.slack.interfaces.SlackElement;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -21,10 +22,11 @@ public class ActionTest extends TestCase {
 
     public void testActionShouldSerializeElementsCorrectly() throws Exception {
 
-        SlackElement button = new PlainText("You got a new message");
+        SlackElement plainText = PlainText.Builder.newInstance().text("You got a new message").build();
 
-        Action action = new Action()
-                .elements(List.of(button));
+        Action action = new Action.Builder()
+                .elements(List.of(plainText))
+                .build();
 
         String actualJson = objectMapper.writeValueAsString(action.build());
         JsonNode actual = objectMapper.readTree(actualJson);
@@ -47,12 +49,13 @@ public class ActionTest extends TestCase {
         assertEquals(expected, actual);
     }
 
-    public void testActionBuilderShouldSetElements() {
+    public void testBuilderShouldSetElements() {
 
-        SlackElement element = new PlainText("Test");
+        SlackElement element = PlainText.Builder.newInstance().text("Test").build();
 
-        Action action = new Action()
-                .elements(List.of(element));
+        Action action = new Action.Builder()
+                .elements(List.of(element))
+                .build();
 
         assertEquals("actions", action.getType());
         assertNotNull(action.getElements());
@@ -61,10 +64,13 @@ public class ActionTest extends TestCase {
 
     public void testBuildShouldReturnSameInstance() {
 
-        Action action = new Action();
+        Action action = new Action.Builder()
+                .elements(List.of(PlainText.Builder.newInstance().text("Test").build()))
+                .build();
 
         Object result = action.build();
 
         assertSame(action, result);
     }
+
 }

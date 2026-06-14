@@ -39,61 +39,61 @@ public class Message {
     // Button
     public Message button(String label, String buttonText, String value, String actionId) {
 
-        addBlock(new Button().text(buttonText).value(value).actionId(actionId).label(label).style(ButtonStyle.PRIMARY));
+        addBlock(Button.Builder.newInstance().text(buttonText).value(value).actionId(actionId).label(label).style(ButtonStyle.PRIMARY).build());
 
         return this;
     }
 
     public Message button(String label, String buttonText, String value, String actionId, ButtonStyle style) {
 
-        addBlock(new Button().text(buttonText).value(value).actionId(actionId).style(style).label(label));
+        addBlock(Button.Builder.newInstance().text(buttonText).value(value).actionId(actionId).style(style).label(label).build());
 
         return this;
     }
 
     // Text
     public Message text(String text) {
-        addBlock(new Section().section(text));
+        addBlock(Section.Builder.newInstance().section(text).build());
 
         return this;
     }
 
     // Markdown
     public Message markdown(String content) {
-        addBlock(new Markdown().markdown(content));
+        addBlock(Markdown.Builder.newInstance().text(content).build());
 
         return this;
     }
 
     // Channel select
     public Message channelSelect(String label, String placeholder, String actionId) {
-        addBlock(new ChannelSelect().placeholder(placeholder).actionId(actionId));
+        addBlock(ChannelSelect.Builder.newInstance().placeholder(placeholder).actionId(actionId).build());
        
         return this;
     }
 
     public Message channelSelect(String label, String placeholder, String actionId, String initialChannel) {
-        addBlock(new ChannelSelect().placeholder(placeholder).actionId(actionId).initialChannel(initialChannel));
+        addBlock(ChannelSelect.Builder.newInstance().placeholder(placeholder).actionId(actionId).initialChannel(initialChannel).build());
        
         return this;
     }
 
     // Header
     public Message header(String text, int level) {
-        addBlock(new Header().text(text).level(level));
+        addBlock(Header.Builder.newInstance().text(text).level(level).build());
         
         return this;
     }
 
     // Divider
     public Message divider() {
-        addBlock(new Divider());
+        addBlock(Divider.Builder.newInstance().build());
         
         return this;
     }
 
     public Message section(List<SlackElement> fields) {
-        addBlock(new Section().fields(fields));
+        addBlock(Section.Builder.newInstance().fields(fields).build());
         return this;
     }
 

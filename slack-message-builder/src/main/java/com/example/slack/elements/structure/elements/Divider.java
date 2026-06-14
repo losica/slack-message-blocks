@@ -3,8 +3,11 @@ package com.example.slack.elements.structure.elements;
 import com.example.slack.interfaces.BlockBuilder;
 import com.example.slack.interfaces.SlackElement;
 
-public class Divider implements BlockBuilder, SlackElement  {
+public final class Divider implements BlockBuilder, SlackElement  {
     private final String type = "divider";
+
+    private Divider(Builder builder) {
+    }
 
     @Override
     public String getType() {
@@ -14,5 +17,17 @@ public class Divider implements BlockBuilder, SlackElement  {
     @Override
     public SlackElement build() {
         return this;
+    }
+
+    public static class Builder {
+
+        public static Builder newInstance()
+        {
+            return new Builder();
+        }
+
+        public Divider build() {
+            return new Divider(this);
+        }
     }
 }

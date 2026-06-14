@@ -11,10 +11,10 @@ public class ButtonTest extends TestCase {
 
     public void testBuildShouldReturnValidSlackSectionJson() throws Exception {
 
-        SlackElement button = new Button()
+        SlackElement button = Button.Builder.newInstance()
                 .label("Click me")
                 .value("btn-value")
-                .actionId("action-123");
+                .actionId("action-123").build();
 
         String actualJson = objectMapper.writeValueAsString(button.build());
 

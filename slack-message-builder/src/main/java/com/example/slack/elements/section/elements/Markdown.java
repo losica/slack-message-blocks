@@ -4,28 +4,47 @@ import com.example.slack.elements.section.Section;
 import com.example.slack.interfaces.BlockBuilder;
 import com.example.slack.interfaces.SlackElement;
 
-public class Markdown implements SlackElement, BlockBuilder  {
-    private final String type = "mrkdwn";
+public final class Markdown implements SlackElement, BlockBuilder {
 
-    private String text;
+    private static final String TYPE = "mrkdwn";
 
-    public Markdown markdown(String text) {
-        this.text = text;
-        return this;
+    private final String text;
+
+    private Markdown(Builder builder) {
+        this.text = builder.text;
     }
 
     @Override
     public String getType() {
-        return type;
+        return TYPE;
     }
 
     public String getText() {
-        return this.text;
+        return text;
     }
 
     @Override
     public SlackElement build() {
-        return new Section()
-            .text(this);
+        return new Section.Builder()
+                .text(this).build();
+    }
+
+    public static class Builder {
+
+        private String text;
+
+        public static Builder newInstance()
+        {
+            return new Builder();
+        }
+
+        public Builder text(String text) {
+            this.text = text;
+            return this;
+        }
+
+        public Markdown build() {
+            return new Markdown(this);
+        }
     }
 }

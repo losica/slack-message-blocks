@@ -21,8 +21,9 @@ public class SectionTest extends TestCase {
 
     public void testSectionWithTextShouldSerializeCorrectly() throws Exception {
 
-        Section section = new Section()
-                .section("Hello world");
+        Section section = Section.Builder.newInstance()
+                .section("Hello world")
+                .build();
 
         String actualJson = objectMapper.writeValueAsString(section.build());
         JsonNode actual = objectMapper.readTree(actualJson);
@@ -45,9 +46,11 @@ public class SectionTest extends TestCase {
 
     public void testSectionWithAccessoryShouldSerializeCorrectly() throws Exception {
 
-        Section section = new Section()
+        Section section = new Section
+                .Builder()
                 .text("Main text")
-                .accessory(new PlainText("Button label"));
+                .accessory(PlainText.Builder.newInstance().text("Button label").build())
+                .build();
 
         String actualJson = objectMapper.writeValueAsString(section.build());
         JsonNode actual = objectMapper.readTree(actualJson);
@@ -71,10 +74,10 @@ public class SectionTest extends TestCase {
 
     public void testSectionWithFieldsShouldExposeFields() {
 
-        SlackElement field = new PlainText("Field 1");
+        SlackElement field = PlainText.Builder.newInstance().text("Field 1").build();
 
-        Section section = new Section()
-                .fields(List.of(field));
+        Section section = new Section.Builder()
+                .fields(List.of(field)).build();
 
         assertNotNull(section.getFields());
         assertEquals(1, section.getFields().size());
@@ -82,7 +85,7 @@ public class SectionTest extends TestCase {
 
     public void testBuildShouldReturnSameInstance() {
 
-        Section section = new Section();
+        Section section = Section.Builder.newInstance().build();
 
         Object result = section.build();
 

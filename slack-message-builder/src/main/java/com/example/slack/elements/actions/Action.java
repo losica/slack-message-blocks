@@ -4,27 +4,47 @@ import java.util.List;
 
 import com.example.slack.interfaces.SlackElement;
 
-public class Action implements SlackElement {
-    private final String type = "actions";
+public final class Action implements SlackElement {
 
-    private List<SlackElement> elements;
+    private static final String TYPE = "actions";
+
+    private final List<SlackElement> elements;
+
+    private Action(Builder builder) {
+        this.elements = List.copyOf(builder.elements);
+    }
 
     public String getType() {
-        return type;
+        return TYPE;
     }
 
-    public Action elements(List<SlackElement> elements) {
-        this.elements = elements;
-        return this;
-    }
-
-    public List<SlackElement> getElements(){
-        return this.elements;
+    public List<SlackElement> getElements() {
+        return elements;
     }
 
     @Override
     public SlackElement build() {
         return this;
     }
-    
+
+    public static class Builder {
+
+        private List<SlackElement> elements;
+
+        public static Builder newInstance()
+        {
+            return new Builder();
+        }
+
+
+        public Builder elements(List<SlackElement> elements) {
+            this.elements = elements;
+            return this;
+        }
+
+        public Action build() {
+
+            return new Action(this);
+        }
+    }
 }

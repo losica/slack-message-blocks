@@ -18,9 +18,9 @@ public class PlainTextTest extends TestCase {
 
     public void testBuilderShouldSetFieldsCorrectly() {
 
-        PlainText text = new PlainText("Hello", false)
+        PlainText text = PlainText.Builder.newInstance()
                 .text("Updated")
-                .emoji(true);
+                .emoji(true).build();
 
         assertEquals("plain_text", text.getType());
         assertEquals("Updated", text.getText());
@@ -29,7 +29,7 @@ public class PlainTextTest extends TestCase {
 
     public void testBuildShouldWrapTextInsideSection() throws Exception {
 
-        PlainText plainText = new PlainText("Hello Slack", true);
+        PlainText plainText = PlainText.Builder.newInstance().text("Hello Slack").emoji(true).build();
 
         String actualJson = objectMapper.writeValueAsString(plainText.build());
         JsonNode actual = objectMapper.readTree(actualJson);
@@ -51,7 +51,7 @@ public class PlainTextTest extends TestCase {
     }
 
     public void testBuildShouldReturnSectionInstance() {
-        PlainText plainText = new PlainText("Hello");
+        PlainText plainText = PlainText.Builder.newInstance().text("Hello").build();
 
         Object result = plainText.build();
 
