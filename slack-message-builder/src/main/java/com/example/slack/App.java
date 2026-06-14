@@ -3,12 +3,10 @@ package com.example.slack;
 import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.example.slack.clients.SlackHttpClient;
 import com.example.slack.clients.interfaces.SlackClient;
 import com.example.slack.elements.section.elements.PlainText;
-import com.example.slack.elements.structure.elements.Header;
 import com.example.slack.senders.SlackWebhookSender;
 import com.example.slack.senders.interfaces.MessageSender;
 import com.example.slack.interfaces.SlackElement;
