@@ -9,16 +9,19 @@ import com.example.slack.clients.interfaces.SlackClient;
 
 public class SlackHttpClient implements SlackClient {
 
+    private static final SlackHttpClient INSTANCE = new SlackHttpClient();
+
     private final HttpClient httpClient;
 
-    public SlackHttpClient() {
+    private SlackHttpClient() {
         this.httpClient = HttpClient.newHttpClient();
     }
 
-    public SlackHttpClient(HttpClient httpClient) {
-        this.httpClient = httpClient;
+    public static SlackHttpClient getInstance() {
+        return INSTANCE;
     }
 
+    @Override
     public HttpResponse<String> post(String endpoint, String payload) {
         try {
             HttpRequest request = HttpRequest.newBuilder()
@@ -27,10 +30,7 @@ public class SlackHttpClient implements SlackClient {
                 .POST(HttpRequest.BodyPublishers.ofString(payload))
                 .build();
 
-            HttpResponse<String> response = httpClient
-                .send(request, HttpResponse.BodyHandlers.ofString());
-
-            return response;
+            return httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception e) {
             throw new RuntimeException("Failed to post to Slack", e);
         }
